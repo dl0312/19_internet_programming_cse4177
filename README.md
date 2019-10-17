@@ -10,3 +10,9 @@ You can see my pages on these links
 	* Dynamic Document
 ### 10/15 php programming
 * php test url - http://cspro.sogang.ac.kr/~cse20131582/test.php
+### 10/17 php programming-2
+* Superglobal variable
+* php form validation - http://cspro.sogang.ac.kr/~cse20131582/cgi-bin/form_validation.php
+* php set&get cookie - http://cspro.sogang.ac.kr/~cse20131582/cgi-bin/set_cookie.php
+* php set session - http://cspro.sogang.ac.kr/~cse20131582/cgi-bin/set_sessionVar.php
+* php get session - http://cspro.sogang.ac.kr/~cse20131582/cgi-bin/get_sessionVar.php
