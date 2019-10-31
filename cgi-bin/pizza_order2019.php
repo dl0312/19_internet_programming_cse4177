@@ -2,6 +2,28 @@
 <body>
 
 <?php
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+echo ("MySQL - PHP Connect Test <br/>");
+$hostname = "localhost";
+$username = "cse20131582";
+$password = "1205";
+$dbname = "db_cse20131582";
+
+$connect = new mysqli($hostname, $username, $password)
+	or die("DB Connection Failed");
+
+if($connect){
+	echo("MySQL Server Connect Success!");
+} else {
+	echo("MySQL Server Connect Failed!");
+}
+
+$connect->close();
+?>
+
+<?php
 // define variables and set to empty values
 $idnumber = $name = $email = $phone = $topping = 
    $paymethod  = $callfirst = "";
@@ -14,6 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $topping = test_input($_POST["topping"]);
   $paymethod = test_input($_POST["paymethod"]);
   $callfirst = test_input($_POST["callfirst"]);
+  $sql = "INSERT INTO Order (idnumber, name, email, phone, topping, paymethod, callfirst)
+  VALUES ($idnumber, $name, $email, $phone, $topping, $paymethod, $callfirst);";
 }
 
 function test_input($data) {
@@ -43,6 +67,11 @@ echo $topping ;
 echo "<br>";
 echo "Pay Method : "  ;
 echo $paymethod;
+if ($conn->multi_qurey($sql) === TRUE){
+	echo "New records created successfully";
+} else {
+	echo "Error: " . $sql . "<br>" . $conn->error;
+}
 ?>
 
 </body>
