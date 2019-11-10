@@ -19,3 +19,6 @@ You can see my pages on these links
 
 ### 10/31 php programming-3
 * php parser - http://cspro.sogang.ac.kr/~cse20131582/parser.html
+
+### 11/07 WWW에 있는 Image 분석 (객체 검출) 서버 구축 실습
+*  - http://cspro.sogang.ac.kr/~cse20131582/request.php

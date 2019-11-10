@@ -1,12 +1,9 @@
-<!DOCTYPE html>
-<html>
-<body>
-
-<h1>My first PHP page</h1>
-
 <?php
-echo "Hello World!";
-?>
+// Output and free from memory
+header('Content-Type: image/jpeg');
 
-</body>
-</html>
+// Create a 200 x 200 image
+$canvas = imagecreatetruecolor(200, 200);
+
+
+?>
