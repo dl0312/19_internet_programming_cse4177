@@ -1,4 +1,7 @@
 # 19 Sogang Univ Internet Programming cse4177
+
+## 🙇‍♂️ Classes
+
 ### 10/8 CGI programming
 You can see my pages on these links
 * http://cspro.sogang.ac.kr/~cse20131582/
@@ -8,8 +11,10 @@ You can see my pages on these links
 * http://cspro.sogang.ac.kr/~cse20131582/input2019
 * http://cspro.sogang.ac.kr/~cse20131582/ping
 	* Dynamic Document
+
 ### 10/15 php programming
 * php test url - http://cspro.sogang.ac.kr/~cse20131582/test.php
+
 ### 10/17 php programming-2
 * Superglobal variable
 * php form validation - http://cspro.sogang.ac.kr/~cse20131582/cgi-bin/form_validation.php
@@ -21,4 +26,14 @@ You can see my pages on these links
 * php parser - http://cspro.sogang.ac.kr/~cse20131582/parser.html
 
 ### 11/07 WWW에 있는 Image 분석 (객체 검출) 서버 구축 실습
-*  - http://cspro.sogang.ac.kr/~cse20131582/image_detection/cgi-bin/parser.php
+* Image Detection - http://cspro.sogang.ac.kr/~cse20131582/image_detection/cgi-bin/parser.php
+
+### 11/14 JavaScript DOM(Document Object Model)
+* DOM document - http://cspro.sogang.ac.kr/~cse20131582/javascript/post
+* Animation - http://cspro.sogang.ac.kr/~cse20131582/javascript/DOM/animation
+* Event handler - http://cspro.sogang.ac.kr/~cse20131582/javascript/DOM/eventhandler
+
+## 🙇‍♀️ Project
+
+### Image 분석 (객체 검출) 서버 구축
+* Image Detection - http://cspro.sogang.ac.kr/~cse20131582/image_detection
