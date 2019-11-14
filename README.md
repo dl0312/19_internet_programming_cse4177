@@ -21,4 +21,4 @@ You can see my pages on these links
 * php parser - http://cspro.sogang.ac.kr/~cse20131582/parser.html
 
 ### 11/07 WWW에 있는 Image 분석 (객체 검출) 서버 구축 실습
-*  - http://cspro.sogang.ac.kr/~cse20131582/request.php
+*  - http://cspro.sogang.ac.kr/~cse20131582/image_detection/cgi-bin/parser.php
