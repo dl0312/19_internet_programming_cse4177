@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+    <h2>Finding HTML Elements by Tag Name</h2>
+
+    <p>Hello World!</p>
+    <p>This example demonstrates the <b>getElementsByTagName</b> method.</p>
+
+    <p id="demo"></p>
+
+    <script>
+        const p_tags = document.getElementsByTagName("p");
+        const demo = p_tags[2];
+        for (let i = 0; i < 2; i++) {
+            const text = `The text in first paragraph (index ${i}) is: ` + p_tags[i].innerText;
+            demo.innerText = demo.innerText.concat(text + '\n');
+        }
+    </script>
+</body>
+
+</html>
