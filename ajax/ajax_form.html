@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <script>
+        function showHint(str) {
+            if (str.length == 0) {
+                document.getElementById("txtHint").innerHTML = "";
+                return;
+            } else {
+                var xmlhttp = new XMLHttpRequest();
+                xmlhttp.onreadystatechange = function () {
+                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        json = JSON.parse(xmlhttp.responseText);
+                        json.forEach(element => {
+                            document.getElementById("txtHint").innerHTML += `${element} `;
+                        });
+                    }
+                };
+                xmlhttp.open("GET",
+                    "http://cspro.sogang.ac.kr/~cse20131582/ajax/cgi-bin/ajax_search.php?q=" + str, true);
+                xmlhttp.send();
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <p><b>Start typing a name in the input field below:</b></p>
+    <form>
+        Name: <input type="text" onkeyup="showHint(this.value)">
+    </form>
+    <p>Suggestions: <span id="txtHint"></span></p>
+</body>
+
+</html>

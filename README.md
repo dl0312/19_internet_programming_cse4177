@@ -33,6 +33,9 @@ You can see my pages on these links
 * Animation - http://cspro.sogang.ac.kr/~cse20131582/javascript/DOM/animation
 * Event handler - http://cspro.sogang.ac.kr/~cse20131582/javascript/DOM/eventhandler
 
+### 11/19 Ajax
+* AJAX - http://cspro.sogang.ac.kr/~cse20131582/ajax/ajax_form
+
 ## 🙇‍♀️ Project
 
 ### Image 분석 (객체 검출) 서버 구축

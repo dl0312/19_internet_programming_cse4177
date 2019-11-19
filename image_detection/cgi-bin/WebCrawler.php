@@ -1,7 +1,22 @@
 <html>
+<head>
 <style>
 <?php include '../style.css';?>
 </style>
+<script>
+function draw() {
+  var canvas = document.getElementById('canvas');
+  if (canvas.getContext) {
+    var ctx = canvas.getContext('2d');
+    var imagePaper = new Image();
+    imagePaper.onload = function(){
+        ctx.drawImage(imagePaper, 0, 0);        
+    }
+    imagePaper.src = "https://ssl.pstatic.net/mimgnews/image/311/2019/11/17/0001075726_002_20191117070101111.jpg";
+  }
+}
+</script>
+</head>
 <body>
 <div id="container">
 
@@ -21,22 +36,21 @@ function connect_mysql($hostname, $username, $password, $dbname)
         echo ("MySQL Server Connect Failed!");
     }
 
-    if ($mysqli->multi_query("INSERT INTO objects (label_name, probability, x, y, w, h) VALUES (\"bench\", 0.324781924, 0.256128967, 0.387623757, 0.703355372, 0.505128562);")
-        === true) {
-        echo "<div>New records created successfully</div>";
-    } else {
-        echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
-    }
+    // if ($mysqli->multi_query("INSERT INTO objects (label_name, probability, x, y, w, h) VALUES (\"bench\", 0.324781924, 0.256128967, 0.387623757, 0.703355372, 0.505128562);")
+    //     === true) {
+    //     echo "<div>New records created successfully</div>";
+    // } else {
+    //     echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
+    // }
     return $mysqli;
 }
 function draw_rectangle_on_image($image_src, $x1, $y1, $x2, $y2)
 {
 //     $canvas = imagecreatefromjpeg($image_src);
-
     echo "x1: " . $x1 . "<br>";
     echo "y1: " . $y1 . "<br>";
-    echo "x2: " . $x2 . "<br>";
-    echo "y2: " . $y2 . "<br>";
+    echo "width: " . $x2 . "<br>";
+    echo "height: " . $y2 . "<br>";
     echo "<br>";
 }
 
@@ -64,7 +78,8 @@ function object_detection($mysqli, $image_src)
         }
     }
     if ($status === 0) {
-        echo "<img src=" . $image_link . " /><br>";
+        // echo "<img src=\"$image_link\" /><br>";
+        echo "<canvas id=\"$image_link\" width=\"1000\" height=\"1000\" >Your browser does not support the HTML5 canvas tag.</canvas><br>";
         echo "# of objects: " . $num_detections . "<br>";
         if ($num_detections) {
             echo "<div class='objects'>";
@@ -72,22 +87,34 @@ function object_detection($mysqli, $image_src)
                 $class = $detections[$i]['class'];
                 $label = $label_list[(int) ($detections[$i]['class']) - 1];
                 $score = $detections[$i]['score'];
-                $x1 = $detections[$i]['position'][0];
-                $y1 = $detections[$i]['position'][1];
-                $x2 = $detections[$i]['position'][2];
-                $y2 = $detections[$i]['position'][3];
-                $sql = "INSERT INTO objects (label_name, probability, x, y, w, h)
-                VALUES (\"$label\", $score, $x1, $y1, $x2, $y2);";
-                if ($mysqli->multi_query($sql) === true) {
-                    echo "<div>New records created successfully</div>";
-                } else {
-                    echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
-                }
+                $y1 = $detections[$i]['position'][0];
+                $x1 = $detections[$i]['position'][1];
+                $height = $detections[$i]['position'][2] - $detections[$i]['position'][0];
+                $width = $detections[$i]['position'][3] - $detections[$i]['position'][1];
+                // $sql = "INSERT INTO objects (label_name, probability, x, y, w, h)
+                // VALUES (\"$label\", $score, $x1, $y1, $x2, $y2);";
+                // if ($mysqli->multi_query($sql) === true) {
+                //     echo "<div>New records created successfully</div>";
+                // } else {
+                //     echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
+                // }
                 echo "<div class='object'>";
                 echo "class: " . $class . "<br>";
                 echo "label: " . $label . "<br>";
                 echo "score: " . $score . "<br>";
-                draw_rectangle_on_image($image_link, $x1, $y1, $x2, $y2);
+                echo "<script>";
+                echo "var canvas = document.getElementById(\"$image_src\")\n;
+                if (canvas.getContext) {
+                  var ctx = canvas.getContext('2d');
+                  var imagePaper = new Image();
+                  imagePaper.src = \"$image_src\";
+                  imagePaper.onload = function(){
+                      ctx.drawImage(imagePaper, 0, 0, 1000, 1000);        
+                  }
+                  ctx.strokeRect(0,0,100,100);
+                }";
+                echo "</script>";
+                draw_rectangle_on_image($image_link, $x1, $y1, $width, $height);
                 echo "</div>";
             }
             echo "</div>";
@@ -104,6 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $website = $_POST["website"];
     echo "<h1>Object Detection for Images</h1><br><br>";
     echo "<h1>URL: " . $website . "</h1><br><br>";
+    echo "<canvas id=\"canvas\" width=\"1000\" height=\"1000\" >Your browser does not support the HTML5 canvas tag.</canvas>";
     if ($website != '') {
         // Create DOM from URL or file
         $html = file_get_html($website);
