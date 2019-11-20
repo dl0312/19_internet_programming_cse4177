@@ -3,16 +3,25 @@
 <head>
     <script>
         function showHint(str) {
+            index_element = document.getElementById("index");
+            name_element = document.getElementById("name");
             if (str.length == 0) {
-                document.getElementById("txtHint").innerHTML = "";
+                index_element.innerHTML = "";
+                name_element = "";
                 return;
             } else {
                 var xmlhttp = new XMLHttpRequest();
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        console.log(xmlhttp.responseText);
                         json = JSON.parse(xmlhttp.responseText);
-                        json.forEach(element => {
-                            document.getElementById("txtHint").innerHTML += `${element} `;
+                        json.forEach((el, idx) => {
+                            index_element.innerHTML += el.index;
+                            name_element.innerHTML += el.name;
+                            if (idx !== json.length - 1) {
+                                index_element.innerHTML += ", ";
+                                name_element.innerHTML += ", ";
+                            }
                         });
                     }
                 };
@@ -30,7 +39,8 @@
     <form>
         Name: <input type="text" onkeyup="showHint(this.value)">
     </form>
-    <p>Suggestions: <span id="txtHint"></span></p>
+    <p>Suggestion Index: <span id="index"></span></p>
+    <p>Suggestion Name: <span id="name"></span></p>
 </body>
 
 </html>

@@ -34,7 +34,7 @@ $a[] = "Vicky";
 // get the q parameter from URL
 $q = $_REQUEST["q"];
 
-$hint;
+$hint = array();
 
 // lookup all hints from array if $q is different from "" 
 if ($q !== "") {
@@ -43,13 +43,17 @@ if ($q !== "") {
     foreach ($a as $name) {
         if (stristr($q, substr($name, 0, $len))) {
             if ($hint === "") {
+                $obj = array();
                 $idx = array_search($name, $a);
-                // $hint = $idx . ". " . $a[$idx];
-                $hint[] = $a[$idx];
+                $obj['index'] = $idx;
+                $obj['name'] = $a[$idx];
+                array_push($hint, $obj);
             } else {
+                $obj = array();
                 $idx = array_search($name, $a);
-                // $hint .= ", " . $idx . ". " . $a[$idx];
-                $hint[] = $a[$idx];
+                $obj['index'] = $idx;
+                $obj['name'] = $a[$idx];
+                array_push($hint, $obj);
             }
         }
     }
