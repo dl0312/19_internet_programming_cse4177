@@ -40,7 +40,12 @@ You can see my pages on these links
 * jQuery - http://cspro.sogang.ac.kr/~cse20131582/jQuery/EX1 ~ http://cspro.sogang.ac.kr/~cse20131582/jQuery/EX9
 
 ### 11/26 HTML5
-* HTML5 - 
+* canvas - http://cspro.sogang.ac.kr/~cse20131582/HTML5/canvas
+* svg - http://cspro.sogang.ac.kr/~cse20131582/HTML5/svg1
+* geolocation - http://cspro.sogang.ac.kr/~cse20131582/HTML5/geo1
+* local storage - http://cspro.sogang.ac.kr/~cse20131582/HTML5/Localstorage
+* session storage - http://cspro.sogang.ac.kr/~cse20131582/HTML5/Sessionstorage
+
 
 ## 🙇‍♀️ Project
 

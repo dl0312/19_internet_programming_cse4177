@@ -95,8 +95,7 @@
                         $x1 = $detections[$i]['position'][1];
                         $height = $detections[$i]['position'][2] - $detections[$i]['position'][0];
                         $width = $detections[$i]['position'][3] - $detections[$i]['position'][1];
-                        $sql = "INSERT INTO objects (label_name, probability, x, y, w, h)
-                                VALUES (\"$label\", $score, $x1, $y1, $width, $height);";
+                        $sql = "INSERT INTO objects (label_name, probability, x, y, w, h)VALUES (\"$label\", $score, $x1, $y1, $width, $height);";
                         if ($mysqli->multi_query($sql) === true) {
                             echo "<div>New records created successfully</div>";
                         } else {
@@ -129,6 +128,12 @@
         }
         include './simplehtmldom_1_9_1/simple_html_dom.php';
         $mysqli = connect_mysql("localhost", "cse20131582", "1205", "db_cse20131582");
+        $sql = "USE db_cse20131582;";
+        if ($mysqli->multi_query($sql) === true) {
+            echo "<div>New records created successfully</div>";
+        } else {
+            echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
+        }
         $website = '';
         $image_links = array();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
