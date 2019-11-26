@@ -51,3 +51,8 @@ You can see my pages on these links
 
 ### Image 분석 (객체 검출) 서버 구축
 * Image Detection - http://cspro.sogang.ac.kr/~cse20131582/image_detection
+
+#### TODO
+
+- [ ] render image on canvas
+- [ ] render detected object info on canvas
