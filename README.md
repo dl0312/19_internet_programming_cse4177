@@ -36,6 +36,12 @@ You can see my pages on these links
 ### 11/19 Ajax
 * AJAX - http://cspro.sogang.ac.kr/~cse20131582/ajax/ajax_form
 
+### 11/21 jQuery
+* jQuery - http://cspro.sogang.ac.kr/~cse20131582/jQuery/EX1 ~ http://cspro.sogang.ac.kr/~cse20131582/jQuery/EX9
+
+### 11/26 HTML5
+* HTML5 - 
+
 ## 🙇‍♀️ Project
 
 ### Image 분석 (객체 검출) 서버 구축

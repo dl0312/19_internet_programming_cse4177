@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script>
+        function appendText() {
+            var txt1 = document.createElement("p");
+            txt1.innerText = "Text.";
+            var body = document.body;
+            for (let i = 0; i < 3; i++) {
+                body.appendChild(txt1);
+            }
+        }
+    </script>
+</head>
+
+<body>
+
+    <p>This is a paragraph.</p>
+    <button onclick="appendText()">Append text</button>
+
+</body>
+
+</html>
