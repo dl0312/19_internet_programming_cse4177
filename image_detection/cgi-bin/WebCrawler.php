@@ -38,25 +38,24 @@
                 echo ("MySQL Server Connect Failed!");
             }
 
-            // if ($mysqli->multi_query("INSERT INTO objects (label_name, probability, x, y, w, h) VALUES (\"bench\", 0.324781924, 0.256128967, 0.387623757, 0.703355372, 0.505128562);")
-            //     === true) {
-            //     echo "<div>New records created successfully</div>";
-            // } else {
-            //     echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
-            // }
             return $mysqli;
         }
-        function draw_rectangle_on_image($image_src, $x, $y, $width, $height)
+        function draw_rectangle_on_image($index, $image_src, $x, $y, $width, $height)
         {
-            //     $canvas = imagecreatefromjpeg($image_src);
             echo "x: " . $x . "<br>";
             echo "y: " . $y . "<br>";
             echo "width: " . $width . "<br>";
             echo "height: " . $height . "<br>";
             echo "<br>";
+            echo "<script>
+                    setTimeout(() => {
+                        ctx_$index.strokeRect(img_$index.width * $x, img_$index.height * $y, img_$index.width * $width, img_$index.height * $height);
+                        ctx_$index.stroke();
+                    }, 5 * $index);
+                </script>";
         }
 
-        function object_detection($mysqli, $image_src)
+        function object_detection($index, $mysqli, $image_src)
         {
             exec("python ./request.py $image_src", $out, $status);
 
@@ -70,7 +69,7 @@
             );
 
             $num_detections_idx = 1;
-            $image_link = $out[0]; // Load the image
+            $image_link = $image_src; // Load the image
             $num_detections = $out[$num_detections_idx];
 
             $detections = array();
@@ -82,7 +81,7 @@
                 }
             }
             if ($status === 0) {
-                // echo "<img src=\"$image_link\" /><br>";
+                echo "<img id=\"img_$index\" src=\"$image_link\" /><br>";
                 $sql = "INSERT INTO image (url)
                         VALUES (\"$image_link\");";
                 if ($mysqli->multi_query($sql) === true) {
@@ -90,41 +89,48 @@
                 } else {
                     echo "<div>Error: " . $sql . "<br>" . $mysqli->error . "</div>";
                 }
-                echo "<canvas id=\"$image_link\" width=\"1000\" height=\"1000\" >Your browser does not support the HTML5 canvas tag.</canvas><br>";
+                echo "<canvas id=\"canvas_$index\" >Your browser does not support the HTML5 canvas tag.</canvas><br>";
+                echo "<script>
+                        var canvas_$index = document.getElementById(\"canvas_$index\");
+                        var img_$index = document.getElementById(\"img_$index\");
+                        var ctx_$index = canvas_$index.getContext('2d');
+                        img_$index.onload = function(e) {
+                        setTimeout(() => {
+                            ctx_$index.canvas.width = img_$index.width;
+                            ctx_$index.canvas.height = img_$index.height;
+                            ctx_$index.drawImage(img_$index, 0, 0, img_$index.width, img_$index.height);
+                            ctx_$index.strokeStyle = \"#ff0000\";
+                            ctx_$index.lineWidth = 2;     
+                        }, 0);
+                        }
+                        
+                    </script>";
                 echo "# of objects: " . $num_detections . "<br>";
                 if ($num_detections) {
                     echo "<div class='objects'>";
                     for ($i = 0; $i < $num_detections; $i++) {
-                        $class = $detections[$i]['class'];
-                        $label = $label_list[(int) ($detections[$i]['class']) - 1];
-                        $score = $detections[$i]['score'];
-                        $y1 = $detections[$i]['position'][0];
-                        $x1 = $detections[$i]['position'][1];
-                        $height = $detections[$i]['position'][2] - $detections[$i]['position'][0];
-                        $width = $detections[$i]['position'][3] - $detections[$i]['position'][1];
-                        $sql = "INSERT INTO object (image_url, label, probability, x, y, w, h)
-                                VALUES (\"$image_link\", \"$label\", $score, $x1, $y1, $width, $height);";
-                        if ($mysqli->multi_query($sql) === true) {
-                            echo "<div>New records created successfully</div>";
-                        } else {
-                            echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
+                        if($detections[$i]['score'] > 0.5){
+                            $class = $detections[$i]['class'];
+                            $label = $label_list[(int) ($detections[$i]['class']) - 1];
+                            $score = $detections[$i]['score'];
+                            $y = $detections[$i]['position'][0];
+                            $x = $detections[$i]['position'][1];
+                            $height = $detections[$i]['position'][2] - $detections[$i]['position'][0];
+                            $width = $detections[$i]['position'][3] - $detections[$i]['position'][1];
+                            $sql = "INSERT INTO object (image_url, label, probability, x, y, w, h)
+                                    VALUES (\"$image_link\", \"$label\", $score, $x, $y, $width, $height);";
+                            if ($mysqli->multi_query($sql) === true) {
+                                echo "<div>New records created successfully</div>";
+                            } else {
+                                echo "<div>Error: " . $sql . "<br>" . $conn->error . "</div>";
+                            }
+                            echo "<div class='object'>";
+                            echo "class: " . $class . "<br>";
+                            echo "label: " . $label . "<br>";
+                            echo "score: " . $score . "<br>";
+                            draw_rectangle_on_image($index, $image_link, $x, $y, $width, $height);
+                            echo "</div>";
                         }
-                        echo "<div class='object'>";
-                        echo "class: " . $class . "<br>";
-                        echo "label: " . $label . "<br>";
-                        echo "score: " . $score . "<br>";
-                        echo "<script>
-                                var canvas = document.getElementById(\"$image_src\")\n;
-                        if (canvas.getContext) {
-                          var ctx = canvas.getContext('2d');
-                          var imagePaper = new Image();
-                          imagePaper.src = \"$image_src\";
-                          imagePaper.onload = function(){
-                              ctx.drawImage(imagePaper, 0, 0, 1000, 1000);        
-                          }
-                        }</script>";
-                        draw_rectangle_on_image($image_link, $x1, $y1, $width, $height);
-                        echo "</div>";
                     }
                     echo "</div>";
                 } else {
@@ -140,29 +146,39 @@
         } else {
             echo "<div>Error: " . $sql . "<br>" . $mysqli->error . "</div>";
         }
-        // $sql = "DELETE FROM object;";
-        // $sql .= "DELETE FROM image;";
-        // if ($mysqli->multi_query($sql) === true) {
-        //     echo "<div>New records created successfully</div>";
-        // } else {
-        //     echo "<div>Error: " . $sql . "<br>" . $mysqli->error . "</div>";
-        // }
+        $sql = "delete from object;";
+        if ($mysqli->multi_query($sql) === true) {
+            echo "<div>New records created successfully</div>";
+        } else {
+            echo "<div>Error: " . $sql . "<br>" . $mysqli->error . "</div>";
+        }
+        $sql = "delete from image;";
+        if ($mysqli->multi_query($sql) === true) {
+            echo "<div>New records created successfully</div>";
+        } else {
+            echo "<div>Error: " . $sql . "<br>" . $mysqli->error . "</div>";
+        }
         $website = '';
         $image_links = array();
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $website = $_POST["website"];
             echo "<h1>Object Detection for Images</h1><br><br>";
             echo "<h1>URL: " . $website . "</h1><br><br>";
-            echo "<canvas id=\"canvas\" width=\"1000\" height=\"1000\" >Your browser does not support the HTML5 canvas tag.</canvas>";
             if ($website != '') {
                 // Create DOM from URL or file
                 $html = file_get_html($website);
                 // Find all images
+                $i=0;
                 foreach ($html->find('img') as $element) {
-                    array_push($image_links, $element->src);
+                    if($i<5){
+                        array_push($image_links, $element->src);
+                    }
+                    $i += 1;
                 }
+                $index = 1;
                 foreach ($image_links as $image_link) {
-                    object_detection($mysqli, $image_link);
+                    object_detection($index, $mysqli, $image_link);
+                    $index += 1;
                 }
             } else {
                 echo 'empty input';
