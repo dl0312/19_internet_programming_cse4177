@@ -48,10 +48,11 @@
             echo "height: " . $height . "<br>";
             echo "<br>";
             echo "<script>
+            
                     setTimeout(() => {
                         ctx_$index.strokeRect(img_$index.width * $x, img_$index.height * $y, img_$index.width * $width, img_$index.height * $height);
                         ctx_$index.stroke();
-                    }, 5 * $index);
+                    }, 300 * $index);
                 </script>";
         }
 
@@ -95,13 +96,13 @@
                         var img_$index = document.getElementById(\"img_$index\");
                         var ctx_$index = canvas_$index.getContext('2d');
                         img_$index.onload = function(e) {
-                        setTimeout(() => {
-                            ctx_$index.canvas.width = img_$index.width;
-                            ctx_$index.canvas.height = img_$index.height;
-                            ctx_$index.drawImage(img_$index, 0, 0, img_$index.width, img_$index.height);
-                            ctx_$index.strokeStyle = \"#ff0000\";
-                            ctx_$index.lineWidth = 2;     
-                        }, 0);
+                            setTimeout(() => {
+                                ctx_$index.canvas.width = img_$index.width;
+                                ctx_$index.canvas.height = img_$index.height;
+                                ctx_$index.drawImage(img_$index, 0, 0, img_$index.width, img_$index.height);
+                                ctx_$index.strokeStyle = \"#ff0000\";
+                                ctx_$index.lineWidth = 2;     
+                            }, 15 * $index);
                         }
                         
                     </script>";
@@ -170,9 +171,11 @@
                 // Find all images
                 $i=0;
                 foreach ($html->find('img') as $element) {
-                    if($i<5){
-                        array_push($image_links, $element->src);
-                    }
+                    // if($i<5){
+                    //     array_push($image_links, $element->src);
+                    // }
+                                            array_push($image_links, $element->src);
+
                     $i += 1;
                 }
                 $index = 1;

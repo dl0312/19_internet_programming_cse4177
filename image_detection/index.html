@@ -1,11 +1,16 @@
 <html>
 
 <body>
-    <FORM METHOD="POST" ACTION="http://cspro.sogang.ac.kr/~cse20131582/image_detection/cgi-bin/WebCrawler.php">
+    <FORM METHOD="POST" ACTION="http://cspro.sogang.ac.kr/~cse20131582/image_detection/cgi-bin/image_request.php">
         <span>
             Enter URL : <input type="text" name="website" placeholder="Enter URL" />
-        </span><br>
-        <INPUT TYPE="submit" VALUE="Enter Website">
+        </span>
+        <INPUT TYPE="submit" VALUE="Enter Website" />
+    </FORM>
+    <FORM METHOD="POST" ACTION="http://cspro.sogang.ac.kr/~cse20131582/image_detection/cgi-bin/search.php">
+        Enter label : <input type="text" name="label" placeholder="Enter label" />
+        Enter score : <input type="number" step="0.01" name="score" placeholder="Enter score" />
+        <INPUT TYPE="submit" VALUE="Search" />
     </FORM>
 </body>
 
